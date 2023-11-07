@@ -12,7 +12,7 @@
         if($hasil){
             if($passwordbaru == $repasswordbaru){
                 $query = mysqli_query($conn, "UPDATE tabel_user SET password='$passwordbaru' WHERE username = '$_SESSION[username_decafe]'");
-                if(!$query){
+                if($query){
                     $message = '<script>alert("Password berhasil diubah");
                                 window.history.back()</script>
                                 </script>';
