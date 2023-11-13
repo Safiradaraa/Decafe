@@ -4,13 +4,13 @@ $id = (isset($_POST['id'])) ? htmlentities($_POST['id']) : " ";
 
 
 if (!empty($_POST['input_user_validate'])) {
-    $query = mysqli_query($conn, "DELETE FROM tabel_user where id = '$id'");
+    $query = mysqli_query($conn, "DELETE FROM tb_user where id = '$id'");
         if ($query) {
             $message = '<script>alert("Data Berhasil Dihapus");
-            window.location="../user"</script>
-             </script>';
+            window.location="../user"</script>';
         } else {
-            $message = '<script>alert("Data Gagal Dihapus")</script>';
+            $message = '<script>alert("Data Gagal Dihapus");
+            window.location="../user"</script>';
         }
 }echo $message;
 ?>

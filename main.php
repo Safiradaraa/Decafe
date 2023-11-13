@@ -4,7 +4,7 @@
     header('location:login');
   } 
 include "proses/connect.php";
-$query = mysqli_query($conn, "SELECT * FROM tabel_user WHERE username = '$_SESSION[username_decafe]'");
+$query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$_SESSION[username_decafe]'");
 $hasil = mysqli_fetch_array($query);
 
 ?>
@@ -25,7 +25,7 @@ $hasil = mysqli_fetch_array($query);
   <?php include 'header.php'; ?>
 <!-- End Header -->
 <div class="container-lg">
-    <div class="row">
+    <div class="row mb-5">
         <!-- sidebar -->
         <?php include "sidebar.php"; ?>
     <!-- End sidebar -->

@@ -17,18 +17,35 @@
             <a class="nav-link ps-2 <?php echo ((isset($_GET['x']) && $_GET['x']=='home') || !isset($_GET['x'])) ? 'active link-light ' : 'link dark' ; ?>  " 
             aria-current="page" href="home"><i class="bi bi-house-door"></i> Dashboard</a>
           </li>
+
+          <?php if($hasil['level']==1 || $hasil['level']==3){ ?>
           <li class="nav-item">
             <a class="nav-link  ps-2 <?php echo (isset($_GET['x']) && $_GET['x']=='menu') ? 'active link-light ' : 'link dark' ; ?>" 
             href="menu"><i class="bi bi-cart4"></i> Daftar Menu</a>
           </li>
+          <?php } ?>
+
+          <?php if($hasil['level']==1){ ?>
+          <li class="nav-item">
+            <a class="nav-link  ps-2 <?php echo (isset($_GET['x']) && $_GET['x']=='katmenu') ? 'active link-light ' : 'link dark' ; ?>" 
+            href="katmenu"><i class="bi bi-tags"></i> Kategori Menu</a>
+          </li>
+          <?php } ?>
+
+          <?php if($hasil['level']==1 || $hasil['level']==2 || $hasil['level']==3){ ?>
           <li class="nav-item">
             <a class="nav-link  ps-2 <?php echo (isset($_GET['x']) && $_GET['x']=='order') ? 'active link-light ' : 'link dark' ; ?>" 
             href="order"><i class="bi bi-cart4"></i> Order</a>
           </li>
+          <?php } ?>
+
+          <?php if($hasil['level']==1 || $hasil['level']==4){ ?>
           <li class="nav-item">
-            <a class="nav-link ps-2 <?php echo (isset($_GET['x']) && $_GET['x']=='customer') ? 'active link-light ' : 'link dark' ; ?>" 
-            href="customer"><i class="bi bi-person-fill"></i> Customer</a>
+            <a class="nav-link ps-2 <?php echo (isset($_GET['x']) && $_GET['x']=='dapur') ? 'active link-light ' : 'link dark' ; ?>" 
+            href="dapur"><i class="bi bi-fire"></i>Dapur</a>
           </li>
+          <?php }?>
+
           <?php if($hasil['level']==1){ ?>
           <li class="nav-item">
             <a class="nav-link ps-2 <?php echo (isset($_GET['x']) && $_GET['x']=='user') ? 'active link-light ' : 'link dark' ; ?>" 

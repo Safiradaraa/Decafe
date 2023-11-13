@@ -1,11 +1,11 @@
 <?php
 include "proses/connect.php";
-$query = mysqli_query($conn, "SELECT * FROM tabel_daftar_menu
-  LEFT JOIN tb_kategori_menu ON tb_kategori_menu.id = tabel_daftar_menu.kategori");
+$query = mysqli_query($conn, "SELECT * FROM tb_daftar_menu
+  LEFT JOIN tb_kategori_menu ON tb_kategori_menu.id_kat_menu = tb_daftar_menu.kategori");
 while ($record = mysqli_fetch_array($query)){
   $result[] = $record;
 }
-$select_kat_menu = mysqli_query($conn, "SELECT kategori_menu FROM tb_kategori_menu");
+$select_kat_menu = mysqli_query($conn, "SELECT id_kat_menu,kategori_menu FROM tb_kategori_menu");
 ?>
 
 <div class="col-lg-9  mt-2">
@@ -60,12 +60,12 @@ $select_kat_menu = mysqli_query($conn, "SELECT kategori_menu FROM tb_kategori_me
 </div>
 <div class="row">
   <div class="col-lg-4">
-  <div class="form-floating ">
-  <select class="form-select" aria-label="Default select example" name="kat-menu" required>
+  <div class="form-floating mb-3">
+  <select class="form-select" aria-label="Default select example" name="kat_menu" required>
     <option selected hidden value="">Pilih kategori menu</option>
     <?php
     foreach ($select_kat_menu as $value){
-      echo "<option value=".$value['kategori_menu'].">$value[kategori_menu]</option>";
+      echo "<option value=".$value['id_kat_menu'].">$value[kategori_menu]</option>";
     }
     ?>
 </select>
@@ -108,79 +108,91 @@ $select_kat_menu = mysqli_query($conn, "SELECT kategori_menu FROM tb_kategori_me
 <!--Akhir Modal Tambah Menu Baru-->
 
 <?php
+if (empty($result)){
+  echo "Data menu makanan atau minuman tidak ada";
+}else {
 foreach ($result as $row){
   ?>
           <!-- Modal View-->
-<div class="modal fade" id="ModalView<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="ModalView<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-fullscreen-md-down">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"> Detail Data User</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Menu Makanan dan Minumam</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form class="needs-validation" novalidate action="proses/proses_input_user.php" method="POST">
+        <form class="needs-validation" novalidate action="proses/proses_input_menu.php" method="POST" enctype="multipart/form-data">
           <div class="row">
-            <div class="col-lg-6">
-      <div class="form-floating mb-3">
-  <input disabled type="text" class="form-control" id="floatingInput" placeholder="Your Name" name="nama" value="<?php echo $row['nama']?>">
-  <label for="floatingInput">Nama</label>
-  <div class="invalid-feedback">
-      Masukkan Nama.
-    </div>
-</div>
-</div>
-<div class="col-lg-6">
+<div class="col-lg-12">
 <div class="form-floating mb-3">
-  <input disabled type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username" value="<?php echo $row['username']?>">
-  <label for="floatingInput">Username</label>
+  <input disabled  type="text" class="form-control" id="floatingInput"
+   value="<?php echo $row['nama_menu'] ?>">
+  <label for="floatingInput">Nama Menu</label>
   <div class="invalid-feedback">
-      Masukkan Username.
+      Masukkan Nama Menu.
     </div>
 </div>
 </div>
 </div>
 <div class="row">
-  <div class="col-lg-4 mb-3">
-  <div class="form-floating">
- <select disabled class="form-select"aria-label="Default select example" required
-    name="level" id="">
+            <div class="col-lg-12">
+      <div class="form-floating mb-3">
+  <input disabled  type="text" class="form-control" id="floatingInput" value="<?php echo $row['keterangan'] ?>">
+  <label for="floatingPassword">Keterangan</label>
+  </div>
+</div>
+</div>
+<div class="row">
+  <div class="col-lg-4">
+  <div class="form-floating mb-3">
+  <select disabled class="form-select" aria-label="Default select example" >
+    <option selected hidden value="">Pilih kategori menu</option>
     <?php
-    $data = array("Owner/Admin", "Kasir", "Pelayan", "Dapur");
-    foreach ($data as $key => $value) {
-      if($row['level'] ==$key+1){
-        echo "<option selected value='$key'>$value</option>";
+    foreach ($select_kat_menu as $value){
+      if($row['kategori']==$value['id_kat_menu']){
+        echo "<option selected value=".$value['id_kat_menu'].">$value[kategori_menu]</option>";
       }else{
-        echo "<option value= '$key'> $value</option>";
-      }
+      echo "<option value=".$value['id_kat_menu'].">$value[kategori_menu]</option>";
     }
+  }
     ?>
 </select>
-<label for="floatingInput">Level User</label>
+<label for="floatingInput">Kategori makanan atau minuman</label>
 <div class="invalid-feedback">
-      Pilih Level User.
+      Pilih Kategori makanan atau minuman.
     </div>
 </div>
 </div>
-<div class="col-8">
+<div class="col-4">
 <div class="form-floating mb-3"  >
-  <input disabled  type="Number" class="form-control" id="floatingInput" placeholder="08xxxx" name="nohp" value="<?php echo $row['nohp']?>">
-  <label for="floatingInput">No HP</label>
+  <input disabled type="Number" class="form-control" id="floatingInput"
+value="<?php echo $row['harga'] ?>">
+  <label for="floatingInput">Harga</label>
+  <div class="invalid-feedback">
+      Masukkan harga menu
+    </div>
 </div>
 </div>
+<div class="col-4">
+<div class="form-floating mb-3"  >
+  <input disabled type="Number" class="form-control" id="floatingInput"
+   value="<?php echo $row['stok'] ?>">
+  <label for="floatingInput">Stok</label>
+  <div class="invalid-feedback">
+      Masukkan Stok
+    </div>
 </div>
-<div class="form-floating">
-  <textarea disabled  class="form-control" name="" id="" style="height:100px" name="alamat"><?php echo $row['alamat']?></textarea>
-  <label for="floatingInput">Alamat</label>
+</div>
 </div>
 <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name ="input_menu_validate" value="1234">Save changes</button>
         </div>
 </form>
+</div>
       </div>
-      
     </div>
-  </div>
 </div>
 <!-- Akhir Modal View-->
 
@@ -189,74 +201,94 @@ foreach ($result as $row){
   <div class="modal-dialog modal-xl modal-fullscreen-md-down">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"> Edit Data User</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Menu Makanan dan Minumam</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form class="needs-validation" novalidate action="proses/proses_edit_user.php" method="POST">
-      <input type="hidden" value="<?php echo $row['id']?>" name="id">
+        <form class="needs-validation" novalidate action="proses/proses_edit_menu.php" 
+        method="POST" enctype="multipart/form-data">
+        <input type="hidden" value="<?php echo $row['id'] ?>" name="id">
           <div class="row">
             <div class="col-lg-6">
-      <div class="form-floating mb-3">
-  <input type="text" class="form-control" id="floatingInput" placeholder="Your Name" name="nama" required value="<?php echo $row['nama']?>">
-  <label for="floatingInput">Nama</label>
+      <div class="input-group mb-3">
+  <input type="file" class="form-control py-3" id="uploadFoto" placeholder="Your Name" name="foto" required>
+  <label class="input-group-text" for="uploadFoto">Upload foto menu</label>
   <div class="invalid-feedback">
-      Masukkan Nama.
+      Masukkan file foto menu.
     </div>
 </div>
 </div>
 <div class="col-lg-6">
 <div class="form-floating mb-3">
-  <input  <?php echo ($row['username'] == $_SESSION['username_decafe']) ? 'disabled' : '';?> type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="username"required value="<?php echo $row['username']?>">
-  <label for="floatingInput">Username</label>
+  <input type="text" class="form-control" id="floatingInput" placeholder="nama_menu" name="nama_menu" required    
+  value="<?php echo $row['nama_menu'] ?>">
+  <label for="floatingInput">Nama Menu</label>
   <div class="invalid-feedback">
-      Masukkan Username.
+      Masukkan Nama Menu.
     </div>
 </div>
 </div>
 </div>
 <div class="row">
-  <div class="col-lg-4 ">
+            <div class="col-lg-12">
+      <div class="form-floating mb-3">
+  <input type="text" class="form-control" id="floatingInput" placeholder="keterangan"  name="keterangan" 
+     value="<?php echo $row['keterangan'] ?>">
+  <label for="floatingPassword">Keterangan</label>
+  </div>
+</div>
+</div>
+<div class="row">
+  <div class="col-lg-4">
   <div class="form-floating mb-3">
-    <select class="form-select"aria-label="Default select example" required
-    name="level" id="">
+  <select class="form-select" aria-label="Default select example" name="kat_menu" >
+    <option selected hidden value="">Pilih kategori menu</option>
     <?php
-    $data = array("Owner/Admin", "Kasir", "Pelayan", "Dapur");
-    foreach ($data as $key => $value) {
-      if($row['level'] ==$key+1){
-        echo "<option selected value=".($key+1).">$value</option>";
+    foreach ($select_kat_menu as $value){
+      if($row['kategori']==$value['id_kat_menu']){
+        echo "<option selected value=".$value['id_kat_menu'].">$value[kategori_menu]</option>";
       }else{
-        echo "<option value= ".($key+1)."> $value</option>";
-      }
+      echo "<option value=".$value['id_kat_menu'].">$value[kategori_menu]</option>";
     }
+  }
     ?>
 </select>
-<label for="floatingInput">Level User</label>
+<label for="floatingInput">Kategori makanan atau minuman</label>
 <div class="invalid-feedback">
-      Pilih Level User.
+      Pilih Kategori makanan atau minuman.
     </div>
 </div>
 </div>
-<div class="col-8">
+<div class="col-4">
 <div class="form-floating mb-3"  >
-  <input  type="Number" class="form-control" id="floatingInput" placeholder="08xxxx" name="nohp" value="<?php echo $row['nohp']?>">
-  <label for="floatingInput">No HP</label>
+  <input type="Number" class="form-control" id="floatingInput"
+   placeholder="Harga" name="harga" required   
+    value="<?php echo $row['harga'] ?>">
+  <label for="floatingInput">Harga</label>
+  <div class="invalid-feedback">
+      Masukkan harga menu
+    </div>
 </div>
 </div>
+<div class="col-4">
+<div class="form-floating mb-3"  >
+  <input type="Number" class="form-control" id="floatingInput"
+   placeholder="Stok" name="stok" required value="<?php echo $row['stok'] ?>">
+  <label for="floatingInput">Stok</label>
+  <div class="invalid-feedback">
+      Masukkan Stok
+    </div>
 </div>
-<div class="form-floating">
-  <textarea   class="form-control" name="" id="" style="height:100px" name="alamat"><?php echo $row['alamat']?></textarea>
-  <label for="floatingInput">Alamat</label>
+</div>
 </div>
 <div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" name ="input_user_validate" value="1234">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name ="input_menu_validate" value="1234">Save changes</button>
         </div>
 </form>
+</div>
       </div>
-      
     </div>
-  </div>
 </div>
 <!-- Akhir Modal Edit-->
 
@@ -270,20 +302,15 @@ foreach ($result as $row){
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form class="needs-validation" novalidate action="proses/proses_delete_user.php" method="POST">
+      <form class="needs-validation" novalidate action="proses/proses_delete_menu.php" method="POST">
       <input type="hidden" value="<?php echo $row['id']?>" name="id">
+      <input type="hidden" value="<?php echo $row['foto']?>" name="foto">
       <div class="col-lg-12">
-        <?php
-        if($row['username'] == $_SESSION['username_decafe']){
-          echo "<div class='alert alert-danger'> Anda tidak dapat menghapus akun sendiri</div>";
-        }else{
-          echo "Apakah anda yakin ingin menghapus user<b>$row[username]</b>";
-        }
-        ?>
+        Apakah anda ingin menghapus menu <b><?php echo $row['nama_menu']?></b>
       </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-danger" name ="input_user_validate" value="1234"<?php echo($row['username'] == $_SESSION['username_decafe']) ?'disabled' : ''?>>Delete</button>
+        <button type="submit" class="btn btn-danger" name ="input_user_validate" value="1234"> Delete </button>
         </div>
 </form>
       </div>
@@ -293,42 +320,9 @@ foreach ($result as $row){
 </div>
 <!-- Akhir Modal Delete-->
 
-          <!-- Modal Reset Password-->
-          <div class="modal fade" id="ModalResetPassword<?php echo $row['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md modal-fullscreen-md-down">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"> Reset Password</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form class="needs-validation" novalidate action="proses/proses_reset_password.php" method="POST">
-      <input type="hidden" value="<?php echo $row['id']?>" name="id">
-      <div class="col-lg-12">
-        <?php
-        if($row['username'] == $_SESSION['username_decafe']){
-          echo "<div class='alert alert-danger'> Anda tidak dapat mereset password sendiri</div>";
-        }else{
-          echo "Apakah anda yakin ingin menreset passwort user<b>$row[username]</b> menjadi password bawaan sistem yaitu <b>password</b>";
-        }
-        ?>
-      </div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success" name ="input_user_validate" value="1234"<?php echo($row['username'] == $_SESSION['username_decafe']) ?'disabled' : ''?>>Reset Password</button>
-        </div>
-</form>
-      </div>
-      
-    </div>
-  </div>
-</div>
-<!-- Akhir Modal Reset Password-->
 <?php 
 }
-if (empty($result)){
-  echo "Data user tidak ada";
-}else {
+
 ?>
     <div class="table-responsive">
   <table class="table table-hover">
@@ -371,9 +365,7 @@ if (empty($result)){
         data-bs-target="#ModalEdit<?php echo $row['id'] ?>"><i class="bi bi-pencil-square"></i></i></button>
         <button class=" btn btn-danger btn-sm me-1" data-bs-toggle="modal" 
         data-bs-target="#ModalDelete<?php echo $row['id'] ?>"><i class="bi bi-trash3"></i></button>
-        <button class=" btn btn-secondary btn-sm" data-bs-toggle="modal" 
-        data-bs-target="#ModalResetPassword<?php echo $row['id'] ?>"><i class="bi bi-key-fill"></i></button>
-        </div></td>
+  
     </tr>
     <?php } ?>
   </tbody>
