@@ -117,70 +117,75 @@ if (empty($result)){
 foreach ($result as $row){
   ?>
          
-          <!-- Modal Edit-->
-          <div class="modal fade" id="ModalEdit<?php echo $row['id_list_order'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-fullscreen-md-down">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Menu Makanan dan Minumam</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form class="needs-validation" novalidate action="proses/proses_edit_orderitem.php" method="POST" >
-      <input type="hidden" name="id" value="<?php echo $row['id_list_order']?>">   
-      <input type="hidden" name="kode_order" value="<?php echo $kode ?>">
-          <input type="hidden" name="meja" value="<?php echo $meja ?>">
-          <input type="hidden" name="pelanggan" value="<?php echo $pelanggan ?>">
-          <div class="row">
-            <div class="col-lg-8">
-      <div class="form-floating mb-3">
-        <select class="form-select" name="menu" id="">
-          <option selected hidden value="">Pilih Menu</option>
-          <?php
-            foreach($select_menu as $value){
-              if($row['menu'] == $value['id']){
-                echo "<option selected value=$value[id]>$value[nama_menu]</option>";
-              }else{
-                echo "<option value=$value[id]> $value[nama_menu]</option>";
-              }
 
-            }
-            ?>
-        </select>
-  <label for="menu">Menu Makanan/Minuman</label>
-  <div class="invalid-feedback">
-      Pilih Menu
-    </div>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="form-floating mb-3">
-  <input type="number" class="form-control" id="floatingInput" placeholder="Jumlah Porsi" 
-  name="jumlah" required value="<?php echo $row['jumlah'] ?> ">
-  <label for="floatingInput">Jumlah Porsi</label>
-  <div class="invalid-feedback">
-      Masukkan Jumlah Porsi.
-    </div>
-</div>
-</div>
-</div>
-<div class="row">
-            <div class="col-lg-12">
-      <div class="form-floating mb-3">
-  <input type="text" class="form-control" id="floatingInput" placeholder="catatan"  name="catatan" value="<?php echo $row['catatan'] ?> ">
-  <label for="floatingPassword">Catatan</label>
-  </div>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" name ="edit_orderitem_validate" value="12345">Save changes</button>
-        </div>
-</form>
-</div>
-      </div>
-    </div>
+         <!-- Modal Edit -->
+         <div class="modal fade" id="ModalEdit<?php echo $row['id_list_order'] ?>" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-fullscreen-md-down">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Menu Makanan dan Minuman</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form class="needs-validation" novalidate action="proses/proses_edit_orderitem.php " method="post">
+                    <input type="hidden" name="id" value="<?php echo $row['id_list_order'] ?>">
+                    <input type="hidden" name="kode_order" value="<?php echo $kode ?>">
+                    <input type="hidden" name="meja" value="<?php echo $meja ?>">
+                    <input type="hidden" name="pelanggan" value="<?php echo $pelanggan ?>">
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <div class="form-floating mb-3">
+                          <select class="form-select" name="menu" id="">
+                            <option selected hidden value="">Pilih Menu</option>
+                            <?php
+                            foreach ($select_menu as $value) {
+                              if ($row['menu'] == $value['id']) {
+                                echo "<option selected value=$value[id]>$value[nama_menu]</option>";
+                              } else {
+                                echo "<option value=$value[id]>$value[nama_menu]</option>";
+                              }
+                            }
+
+                            ?>
+                          </select>
+                          <label for="menu">Menu Makanan/Minuman</label>
+                          <div class="invalid-feedback">
+                            Pilih Menu.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-floating mb-3">
+                          <input type="number" class="form-control" id="floatingInput" placeholder="Jumlah Porsi"
+                            name="jumlah" required value="<?php echo $row['jumlah'] ?>">
+                          <label for="floatingInput">Jumlah Porsi</label>
+                          <div class="invalid-feedback">
+                            Masukkan Jumlah Porsi.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-floating mb-3">
+                          <input type="text" class="form-control" id="floatingInput" placeholder="catatan" name="catatan"
+                            value="<?php echo $row['catatan'] ?>">
+                          <label for="floatingPassword">Catatan</label>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" name="edit_orderitem_validate" value="12345">Save
+                    changes</button>
+                </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
 
 <!-- Akhir Modal Edit-->
 

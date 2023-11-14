@@ -15,5 +15,6 @@ if (!empty($_POST['delete_orderitem_validate'])) {
         window.location="../?x=orderitem&order='.$kode_order.'&meja='.$meja.'&pelanggan='.$pelanggan.'"</script>';
         }
     
-}echo $message;
+}
+echo $message;
 ?>
